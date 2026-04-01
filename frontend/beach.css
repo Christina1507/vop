@@ -1,0 +1,139 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+
+  background: linear-gradient(135deg, #ff7eb3, #8e44ad, #3498db);
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+
+  display: flex;
+  justify-content: center;
+
+  /* 🔥 FIX */
+  align-items: flex-start;   /* instead of center */
+  padding: 40px 0;           /* adds space at top */
+  min-height: 100vh;
+}
+/* ANIMATION */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* FORM BOX */
+.form-box {
+  width: 420px;
+  padding: 35px;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+
+  border-radius: 25px;
+  color: white;
+
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* TITLE */
+.form-box h2 {
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 25px;
+}
+
+/* INPUT GROUP */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;              /* 🔥 clean spacing between label + input */
+  margin-bottom: 15px;   /* 🔥 equal spacing between fields */
+}
+
+/* LABEL */
+label {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* INPUTS */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 12px;
+  border: none;
+  outline: none;
+
+  background: rgba(255,255,255,0.2);
+  color: white;
+
+  box-sizing: border-box;   /* 🔥 IMPORTANT alignment fix */
+}
+
+/* PLACEHOLDER */
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* TEXTAREA */
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* FOCUS */
+input:focus,
+textarea:focus,
+select:focus {
+  background: rgba(255,255,255,0.3);
+}
+
+/* DROPDOWN FIX */
+select {
+  appearance: none;
+
+  background: rgba(255,255,255,0.2)
+    url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 10px center;
+
+  background-size: 18px;
+}
+
+select option {
+  color: black;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(90deg, #ff7eb3, #8e44ad);
+  color: white;
+
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER */
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Volunteer System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT PANEL */
+.left {
+  width: 35%;
+  background: linear-gradient(270deg,#ff7eb3,#8e44ad,#ff4d88);
+  background-size: 400% 400%;
+  animation: gradientMove 8s infinite;
+  color: white;
+  padding: 40px;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+.menu button:hover {
+  background: white;
+  color: #8e44ad;
+}
+
+/* RIGHT PANEL */
+.right {
+  width: 65%;
+  padding: 25px;
+  overflow-y: auto;
+  background: linear-gradient(135deg,#fff0f5,#fde2e4);
+}
+
+/* EVENT CARD */
+.event-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px rgba(255,0,120,0.15);
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin: 15px 0;
+  transition: 0.4s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(255,0,120,0.25);
+}
+
+.top {
+  border: 2px solid gold;
+}
+
+.tag {
+  background:#ffe6f0;
+  padding:5px 10px;
+  border-radius:10px;
+  margin:3px;
+  display:inline-block;
+}
+
+.btn {
+  margin-top:10px;
+  padding:8px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.accept { background:#ff4d88; color:white; }
+.reject { background:#ccc; }
+.invite { background:#8e44ad; color:white; }
+
+.bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(to right,#ff4d88,#ff7eb3);
+  border-radius: 10px;
+}
+
+@keyframes gradientMove {
+  0%{background-position:0%}
+  50%{background-position:100%}
+  100%{background-position:0%}
+}
+</style>
+</head>
+
+<body>
+
+<div class="left">
+  <h1 id="title">Beach Cleanup</h1>
+  <p>Smart Volunteer Matching System</p>
+
+  <div class="menu">
+    <button onclick="loadEvent('beach')"> Beach</button>
+    <button onclick="loadEvent('er')"> ER Volunteering</button>
+    <button onclick="loadEvent('skill')"> Skill Exchange</button>
+    <button onclick="loadEvent('tech')"> Tech Events</button>
+    <button onclick="loadEvent('ngo')"> NGO</button>
+  </div>
+</div>
+<div id="volunteerList"></div>
+<div class="right">
+
+<div id="eventDetails"></div>
+
+<h2> Volunteer Applications</h2>
+<div id="applications"></div>
+
+<h2> Suggested Volunteers</h2>
+<div id="suggested"></div>
+
+</div>
+
+<script>
+
+// EVENTS (same)
+let events = {
+
+beach: {
+title:"Beach Cleanup",
+html:`<div class="event-card">
+<h2> Marina Beach Cleanup</h2>
+<p> Chennai | Sunday 6 AM | 25 Volunteers</p>
+<p>Clean plastic waste and protect marine life </p>
+</div>`
+},
+
+er: {
+title:"ER Volunteering",
+html:`<div class="event-card">
+<h2> Emergency Response</h2>
+<p> Hospitals | Flexible | 15 Volunteers</p>
+<p>Help during medical emergencies </p>
+</div>`
+},
+
+skill: {
+title:"Skill Exchange",
+html:`<div class="event-card">
+<h2> Skill Exchange</h2>
+<p> Online | Anytime</p>
+<p>Teach & learn skills </p>
+</div>`
+},
+
+tech: {
+title:"Tech Events",
+html:`<div class="event-card">
+<h2> Hackathon</h2>
+<p> Chennai | Saturday</p>
+<p>Build projects & network </p>
+</div>`
+},
+
+ngo: {
+title:"NGO Support",
+html:`<div class="event-card">
+<h2> NGO Work</h2>
+<p> Various | Weekend</p>
+<p>Help communities </p>
+</div>`
+}
+
+};
+
+// CATEGORY MAP (IMPORTANT)
+const categoryMap = {
+  beach: "beach",
+  er: "er",
+  skill: "skill",
+  tech: "tech",
+  ngo: "ngo"
+};
+
+// LOAD EVENT FROM BACKEND
+async function loadEvent(type){
+
+document.getElementById("title").innerText = events[type].title;
+document.getElementById("eventDetails").innerHTML = events[type].html;
+
+document.getElementById("applications").innerHTML="";
+document.getElementById("suggested").innerHTML="";
+
+try {
+
+  const res = await fetch(`http://localhost:5000/api/volunteer/suggested/${categoryMap[type]}`);
+  const data = await res.json();
+
+  render(data,"applications","accept");
+  render(data,"suggested","invite");
+
+} catch(err){
+  console.error(err);
+  alert("Error loading volunteers");
+}
+
+}
+
+// BUTTONS (same)
+function acceptVolunteer(btn){
+  btn.innerText="Accepted ";
+  btn.style.background="green";
+}
+
+function rejectVolunteer(btn){
+  btn.closest(".card").remove();
+}
+
+function sendInvite(btn){
+  btn.innerText="Invited ";
+  btn.style.background="green";
+}
+
+// RENDER (UPDATED FOR BACKEND DATA)
+function render(list, containerId, type){
+
+const container = document.getElementById(containerId);
+
+list.forEach((v,i)=>{
+
+const score = v.match_score || 50;
+
+const div=document.createElement("div");
+div.className="card";
+if(i===0) div.classList.add("top");
+
+div.innerHTML=`
+<h3>${v.location || "Volunteer"} ${i===0?" Top Match":""}</h3>
+
+ ${v.location || "N/A"}<br>
+ ${v.availability || "N/A"}<br>
+
+<div class="bar">
+<div class="fill" style="width:${score}%"></div>
+</div>
+
+<small>${score}% Match</small>
+
+<div style="margin-top:8px; font-style:italic;">
+"${v.story || "No story"}"
+</div>
+
+<button class="btn ${type}" onclick="${type==='invite'?'sendInvite(this)':'acceptVolunteer(this)'}">
+${type==="invite"?"Invite":"Accept"}
+</button>
+
+${type==="accept"?'<button class="btn reject" onclick="rejectVolunteer(this)">Reject</button>':""}
+`;
+
+container.appendChild(div);
+});
+}
+
+// INITIAL LOAD
+loadEvent("beach");
+
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+
+ 
+  background: linear-gradient(135deg, #ff7eb3, #8e44ad, #3498db);
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+}
+
+/* ANIMATION */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* MAIN */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* LEFT */
+.left {
+  width: 50%;
+  color: white;
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* TEXT */
+.left h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.left p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* RIGHT PANEL (GLASS) */
+.right {
+  width: 50%;
+  padding: 40px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+
+  border-radius: 30px 0 0 30px;
+  overflow-y: auto;
+}
+
+/* TITLE */
+.right h2 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+/* STACK */
+.scroll-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  position: relative;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* BACKGROUNDS */
+.beach {
+  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover;
+}
+
+.tech {
+  background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c") center/cover;
+}
+
+.ngo {
+  background: url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f") center/cover;
+}
+
+.emergency {
+  background: url("https://images.unsplash.com/photo-1526256262350-7da7584cf5eb") center/cover;
+}
+.skill {
+  background: url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d") center/cover;
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.3)
+  );
+}
+
+/* TEXT */
+.card h3,
+.card p {
+  position: relative;
+  z-index: 2;
+  color: white;
+  margin: 0;
+}
+
+.card p {
+  font-size: 14px;
+}
