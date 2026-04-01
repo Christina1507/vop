@@ -10,7 +10,7 @@ async function submitProfile() {
     category: "beach"
   };
 
-  const res = await fetch("http://localhost:5000/api/volunteer", {
+  const res = await fetch("http://13.203.224.107:5000", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
