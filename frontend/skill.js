@@ -10,7 +10,7 @@ async function submitProfile() {
     category: "skill"
   };
 
-  await fetch("http://localhost/api/volunteer", {
+  await fetch("http://13.203.224.107:5000/api/volunteer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
