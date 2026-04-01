@@ -10,7 +10,7 @@ async function submitProfile() {
     category: "ngo"
   };
 
-  await fetch("http://13.203.224.107:5000", {
+  await fetch("http://13.203.224.107:5000/api/volunteer", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
