@@ -1,6 +1,6 @@
 async function loadVolunteers() {
 
-  const res = await fetch("http://localhost:5000/api/volunteer/suggested/beach");
+  const res = await fetch("http://13.203.224.107:5000/api/volunteer/suggested/beach");
   const data = await res.json();
 
   const container = document.getElementById("volunteerList");
